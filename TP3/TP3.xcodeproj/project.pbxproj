@@ -61,8 +61,8 @@
 			isa = PBXGroup;
 			children = (
 				F440D8451DD206D40013DF75 /* main.c */,
-				F440D84F1DD20AD60013DF75 /* tp3.c */,
 				F440D8501DD20AD60013DF75 /* tp3.h */,
+				F440D84F1DD20AD60013DF75 /* tp3.c */,
 			);
 			path = TP3;
 			sourceTree = "<group>";
