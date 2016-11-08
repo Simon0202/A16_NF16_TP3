@@ -134,3 +134,8 @@ void afficherMagasin(T_Magasin *magasin){
         
     }
 }
+
+void supprimerRayon(T_Magasin *magasin, char *nom_rayon){
+    
+    
+}
