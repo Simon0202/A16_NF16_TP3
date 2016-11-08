@@ -2,6 +2,7 @@
 #define tp3_h
 
 #include <stdio.h>
+#include <stdlib.h>
 
 enum quality{A,B,C};
 
