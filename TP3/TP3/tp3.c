@@ -36,7 +36,7 @@ int ajouterProduit(T_Rayon *rayon, T_Produit *produit){
     
     if(currentRayon == NULL){
         printf("Aucun rayon existant");
-        exit(EXIT_FAILURE);
+        return 0;
     }
     if(currentRayon->premier == NULL){
         currentRayon->premier = produit;
