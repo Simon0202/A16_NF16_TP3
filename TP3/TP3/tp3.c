@@ -1,11 +1,3 @@
-//
-//  tp3.c
-//  TP3
-//
-//  Created by LAURENT SIMON on 08/11/2016.
-//  Copyright © 2016 LAURENT SIMON. All rights reserved.
-//
-
 #include "tp3.h"
 
 T_Produit *creerProduit(char *marque, float prix, char qualite, int quantite){

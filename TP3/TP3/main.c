@@ -1,10 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "library.h"
+#include "tp3.h"
 
-T_Produit *creerProduit(char *marque, float prix, char qualite, int quantite);
-T_Rayon *creerRayon(char *nom);
-T_Magasin *creerMagasin(char *nom);
+
 
 int main(int argc, const char * argv[]) {
 
