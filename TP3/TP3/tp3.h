@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 //**********
 //Structures
@@ -36,6 +37,8 @@ T_Produit *creerProduit(char *marque, float prix,enum quality qualite,unsigned i
 T_Rayon *creerRayon(char *nom);
 T_Magasin *creerMagasin(char *nom);
 int ajouterRayon(T_Magasin *magasin, T_Rayon *rayon);
+//int totalProduitDansUnRayon(T_Rayon *rayon);
+void afficherMagasin(T_Magasin *magasin);
 
 
 
