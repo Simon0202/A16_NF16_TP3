@@ -10,7 +10,7 @@ enum quality{A,B,C};
 typedef struct Produit {
     char *marque;
     double prix;
-    quality qualite;   //valeur possible : A, B, C
+    enum quality qualite;   //valeur possible : A, B, C
     unsigned int quantite_en_stock;
     struct Produit* suivant;
 } T_Produit;
