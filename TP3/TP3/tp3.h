@@ -4,13 +4,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+//**********
+//Structures
+//**********
 enum quality{A,B,C};
-
 
 typedef struct Produit {
     char *marque;
     double prix;
-    quality qualite;   //valeur possible : A, B, C
+    enum quality qualite;   //valeur possible : A, B, C
     unsigned int quantite_en_stock;
     struct Produit* suivant;
 } T_Produit;
@@ -27,8 +29,13 @@ typedef struct Magasin {
     T_Rayon *premier;
 } T_Magasin;
 
-
-
+//**********************
+//Functions declarations
+//**********************
+T_Produit *creerProduit(char *marque, float prix,enum quality qualite,unsigned int quantite);
+T_Rayon *creerRayon(char *nom);
+T_Magasin *creerMagasin(char *nom);
+int ajouterRayon(T_Magasin *magasin, T_Rayon *rayon);
 
 
 

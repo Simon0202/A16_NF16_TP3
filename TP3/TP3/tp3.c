@@ -1,6 +1,6 @@
 #include "tp3.h"
 
-T_Produit *creerProduit(char *marque, float prix, quality qualite,unsigned int quantite){
+T_Produit *creerProduit(char *marque, float prix,enum quality qualite,unsigned int quantite){
     T_Produit *NewProduit = malloc(sizeof(struct Produit));
     NewProduit->marque = marque;
     NewProduit->prix=prix;
@@ -23,3 +23,5 @@ T_Magasin *creerMagasin(char *nom)
     NewMagasin->nom = nom;
     return NewMagasin;
 }
+
+int ajouterRayon(T_Magasin *magasin, T_Rayon *rayon);
