@@ -10,5 +10,7 @@ int main(int argc, const char * argv[]) {
     
     ajouterRayon(carrefour, laitier);
     afficherMagasin(carrefour);
+    ajouterProduit(laitier, danone);
+    afficherRayon(laitier);
     return 0;
 }

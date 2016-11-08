@@ -31,43 +31,44 @@ T_Magasin *creerMagasin(char *nom)
 
 //Q3
 int ajouterProduit(T_Rayon *rayon, T_Produit *produit){
-    T_Rayon *currentRayon=rayon;
+    
+    T_Rayon *currentRayon = rayon;  //sinon adresse va changer
+    
+    if(currentRayon == NULL){
+        printf("Aucun rayon existant");
+        exit(EXIT_FAILURE);
+    }
     if(currentRayon->premier == NULL){
         currentRayon->premier = produit;
-        currentRayon->nombre_produit++;
-    }
-    return 1;
-    if (currentRayon->premier->prix > produit->prix) {
-        produit->suivant = currentRayon->premier->suivant;
-        rayon->premier = produit;
         rayon->nombre_produit++;
         return 1;
     }
-    if(rayon->premier->prix == produit->prix)
+    if(currentRayon->premier->marque == produit->marque)    //la même marque de produit dans un rayon
         return 0;
-    else{
-        p = rayon->premier;
-        while( p->suivant != NULL && p->suivant->prix < produit->prix)
-            p = p->suivant;
-        if(p->suivant == NULL){
-            p->suivant = produit;
-            rayon->nombre_produit++;
-            return 1;
-        }
-        else{
-            if(p->suivant->prix == produit->prix)
-                return 0;
-            else{
-                produit->suivant = p->suivant;
-                p->suivant = produit;
-                rayon->nombre_produit++;
-                return 1;
-            }
-        }
+    if(currentRayon->premier->prix >= produit->prix) {
+        produit->suivant = currentRayon->premier;   //ajouter dans le premier
+        currentRayon->premier = produit;
+        rayon->nombre_produit++;
+        return 1;
     }
-    return 0;
-}
+    while( (currentRayon->premier->suivant != NULL) && (currentRayon->premier->suivant->marque != produit->marque) && (currentRayon->premier->suivant->prix < produit->prix) )  //pas de meme marque et trier
+            currentRayon->premier = currentRayon->premier->suivant;
+    if(currentRayon->premier->suivant == NULL){
+        currentRayon->premier->suivant = produit;
+        rayon->nombre_produit++;
+        return 1;
+    }
+    else if(currentRayon->premier->suivant->marque == produit->marque)
+            return 0;   //la même marque de produit dans un rayon
+    else{
+        produit->suivant = currentRayon->premier->suivant;  //ajouter dans le dernier
+        currentRayon->premier->suivant = produit;
+        rayon->nombre_produit++;
+        return 1;
+    }
     
+}
+
 int ajouterRayon(T_Magasin *magasin, T_Rayon *rayon){
     //Recuperation du magasin afin de ne pas perdre l'adresse du magasin
     //Il comprend la liste simplement chainée des rayons
@@ -132,5 +133,70 @@ void afficherMagasin(T_Magasin *magasin){
             currentMagasin->premier = currentMagasin->premier->suivant;
         }
         
+    }
+}
+
+
+//Q5
+void afficherRayon(T_Rayon *rayon){
+    
+    T_Rayon *currentRayon = rayon;
+    char c; //pour afficher qualite
+    if(currentRayon == NULL){
+        printf("Aucun rayon existant");
+        exit(EXIT_FAILURE);
+    }
+    else if (currentRayon->premier == NULL) {
+        printf("Il n'existe aucun produit pour ce magasion");
+    }
+    else{
+        printf("||Marque   ||Prix ||Qualite||Quantite en stock||\n");
+        while (currentRayon->premier!= NULL) {
+            switch (currentRayon->premier->qualite) {   //pour afficher qualite
+                case 0:
+                    c = 'A';
+                    break;
+                case 1:
+                    c = 'B';
+                    break;
+                default:
+                    c = 'C';
+                    break;
+            }
+            printf("||%s||%.2f||%c||%d||\n",currentRayon->premier->marque,currentRayon->premier->prix,c,currentRayon->premier->quantite_en_stock);
+            currentRayon->premier = currentRayon->premier->suivant;
+        }
+    }
+}
+
+//Q6
+int supprimerProduit(T_Rayon *rayon, char* marque_produit){
+    T_Rayon *currentRayon = rayon;
+    T_Produit *supprimer;
+    if(currentRayon == NULL){
+        printf("Aucun rayon existant");
+        return 0;
+    }
+    if (currentRayon->premier == NULL) {
+        printf("Il n'existe aucun produit pour ce rayon");
+        return 0;
+    }
+    if (currentRayon->premier->marque == marque_produit){
+        supprimer = currentRayon->premier;
+        currentRayon->premier = currentRayon->premier->suivant;
+        free(supprimer);
+        return 1;
+    }
+    while((currentRayon->premier->suivant != NULL) && (currentRayon->premier->suivant->marque != marque_produit))
+        currentRayon->premier = currentRayon->premier->suivant;
+    if(currentRayon->premier->suivant == NULL){
+        printf("Aucun rayon existant");
+        return 0;
+    }
+    else{
+        supprimer = currentRayon->premier->suivant;
+        currentRayon->premier->suivant = currentRayon->premier->suivant->suivant;
+        free(supprimer);
+        return 1;
     }
 }
