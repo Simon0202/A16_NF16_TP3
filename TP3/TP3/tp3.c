@@ -136,7 +136,6 @@ void afficherMagasin(T_Magasin *magasin){
     }
 }
 
-
 //Q5
 void afficherRayon(T_Rayon *rayon){
     
@@ -199,4 +198,8 @@ int supprimerProduit(T_Rayon *rayon, char* marque_produit){
         free(supprimer);
         return 1;
     }
+}
+
+void supprimerRayon(T_Magasin *magasin, char *nom_rayon){
+
 }

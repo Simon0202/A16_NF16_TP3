@@ -41,6 +41,7 @@ int ajouterRayon(T_Magasin *magasin, T_Rayon *rayon);
 void afficherRayon(T_Rayon *rayon);
 //int totalProduitDansUnRayon(T_Rayon *rayon);
 void afficherMagasin(T_Magasin *magasin);
+void supprimerRayon(T_Magasin *magasin, char *nom_rayon);
 
 
 
