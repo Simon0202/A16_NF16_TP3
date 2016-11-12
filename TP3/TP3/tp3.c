@@ -76,7 +76,7 @@ int ajouterRayon(T_Magasin *magasin, T_Rayon *rayon){
     
     //On verifie qu'un magasin existe
     if(currentMagasin==NULL){
-        printf("Il n'y a pas de magasin, on ne peut ajouter le rayon");
+        printf("Il n'y a pas de magasin, on ne peut ajouter le rayon\n");
         return 0;
     }
     //On verifie si le magasin contient dejà des rayons
@@ -86,33 +86,13 @@ int ajouterRayon(T_Magasin *magasin, T_Rayon *rayon){
     }
     else{
         //Sinon on va parcourir la liste simplement chainées
-        while(strcmp(currentMagasin->premier->suivant->nom_rayon,rayon->nom_rayon)&&currentMagasin->premier->suivant!=NULL){
+        while(currentMagasin->premier->suivant!=NULL && strcmp(currentMagasin->premier->suivant->nom_rayon,rayon->nom_rayon)){
             currentMagasin->premier = currentMagasin->premier->suivant;
         }
-        currentMagasin->premier->suivant= rayon;
+        currentMagasin->premier->suivant = rayon;
         return 1;
     }
 }
-
-/*
-int totalProduitDansUnRayon(T_Rayon *rayon){
-    T_Rayon *currentRayon = rayon;
-    unsigned int total = 0;
-    if(currentRayon==NULL){
-        exit(EXIT_FAILURE);
-    }
-    else if (currentRayon->premier==NULL){
-        return total;
-    }
-    else{
-        while(currentRayon->premier!=NULL){
-            total+=currentRayon->premier->quantite_en_stock;
-            currentRayon->premier = currentRayon->premier->suivant;
-        }
-        return total;
-    }
-}
-*/
 
 void afficherMagasin(T_Magasin *magasin){
     //Recuperation du magasin afin de ne pas perdre l'adresse du magasin
@@ -124,7 +104,7 @@ void afficherMagasin(T_Magasin *magasin){
         exit(EXIT_FAILURE);
     }
     else if (currentMagasin->premier==NULL) {
-        printf("Il n'existe aucun produit pour ce magasion");
+        printf("Il n'existe aucun produit pour ce magasin");
     }
     else{
         printf("||NOM    ||Nombre de produits||\n");
@@ -146,7 +126,7 @@ void afficherRayon(T_Rayon *rayon){
         exit(EXIT_FAILURE);
     }
     else if (currentRayon->premier == NULL) {
-        printf("Il n'existe aucun produit pour ce magasion");
+        printf("Il n'existe aucun produit pour ce magasin");
     }
     else{
         printf("||Marque   ||Prix ||Qualite||Quantite en stock||\n");
@@ -203,3 +183,37 @@ int supprimerProduit(T_Rayon *rayon, char* marque_produit){
 void supprimerRayon(T_Magasin *magasin, char *nom_rayon){
 
 }
+
+//*****
+//ADDED
+//*****
+void afficherNomMagasin(T_Magasin *magasin){
+    printf("Le nom du magasin est le suivant: %s\n",magasin->nom);
+}
+
+
+
+
+//*******
+//USELESS
+//*******
+
+/*
+ int totalProduitDansUnRayon(T_Rayon *rayon){
+ T_Rayon *currentRayon = rayon;
+ unsigned int total = 0;
+ if(currentRayon==NULL){
+ exit(EXIT_FAILURE);
+ }
+ else if (currentRayon->premier==NULL){
+ return total;
+ }
+ else{
+ while(currentRayon->premier!=NULL){
+ total+=currentRayon->premier->quantite_en_stock;
+ currentRayon->premier = currentRayon->premier->suivant;
+ }
+ return total;
+ }
+ }
+ */

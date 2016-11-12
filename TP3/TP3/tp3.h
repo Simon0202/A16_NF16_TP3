@@ -33,16 +33,26 @@ typedef struct Magasin {
 //**********************
 //Functions declarations
 //**********************
+
+//Creation
 T_Produit *creerProduit(char *marque, float prix,enum quality qualite,unsigned int quantite);
 T_Rayon *creerRayon(char *nom);
 T_Magasin *creerMagasin(char *nom);
+
+//Ajout
 int ajouterProduit(T_Rayon *rayon, T_Produit *produit);
 int ajouterRayon(T_Magasin *magasin, T_Rayon *rayon);
-void afficherRayon(T_Rayon *rayon);
-//int totalProduitDansUnRayon(T_Rayon *rayon);
-void afficherMagasin(T_Magasin *magasin);
+
+//Supression
 void supprimerRayon(T_Magasin *magasin, char *nom_rayon);
 
+//Affichage
+void afficherNomMagasin(T_Magasin *magasin);
+void afficherRayon(T_Rayon *rayon);
+void afficherMagasin(T_Magasin *magasin);
+
+//Useless
+//int totalProduitDansUnRayon(T_Rayon *rayon);
 
 
 #endif /* tp3_h */

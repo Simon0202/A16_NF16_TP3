@@ -1,49 +1,56 @@
 #include "tp3.h"
 
-
+#define MaxTaileForMagasinName 50
+#define MaxTailleForRayonName 25
+#define MaxTailleForProductName 20
 
 int main(int argc, const char * argv[]) {
-
-    /*
-    T_Magasin *carrefour = creerMagasin("Carrefour");
-    T_Magasin *simply = creerMagasin("Simply");
-    T_Rayon *laitier = creerRayon("laitier");
-    T_Produit *danone = creerProduit("danone", 3.14, A, 200);
-    
-    ajouterRayon(carrefour, laitier);
-    afficherMagasin(carrefour);
-<<<<<<< HEAD
-    ajouterProduit(laitier, danone);
-    afficherRayon(laitier);
-=======
-*/
+    //Title of the program
     printf("Bonjour, Bienvenue dans notre simulateur de magasin\n");
+    
+    //Variables
     int enFonctionnement = 0;
+    char nomMagasin[MaxTaileForMagasinName];
+    char nomRayon[MaxTailleForRayonName];
+    T_Magasin *magasin=NULL;
+    
+    
     while(enFonctionnement==0){
         int choix = 0;
-        printf("Menu des actions possibles\n");
-        printf("Tapez 1 - Créer un magasin");
-        printf("Tapez 2 - Ajouter un rayon au magasin");
-        printf("Tapez 3 - Ajouter un produit dans un rayon");
-        printf("Tapez 4 - Afficher les rayons du magasin");
-        printf("Tapez 5 - Afficher les produits d'un rayon");
-        printf("Tapez 6 - Supprimer un produit");
-        printf("Tapez 7 - Supprimer un rayon");
-        printf("Tapez 8 - Rechercher un produit par prix");
-        printf("Tapez 9 - Quitter");
+        printf("\nMenu des actions possibles\n");
+        printf("Tapez 1 - Créer un magasin\n");
+        printf("Tapez 2 - Ajouter un rayon au magasin\n");
+        printf("Tapez 3 - Ajouter un produit dans un rayon\n");
+        printf("Tapez 4 - Afficher les rayons du magasin\n");
+        printf("Tapez 5 - Afficher les produits d'un rayon\n");
+        printf("Tapez 6 - Supprimer un produit\n");
+        printf("Tapez 7 - Supprimer un rayon\n");
+        printf("Tapez 8 - Rechercher un produit par prix\n");
+        printf("Tapez 9 - Quitter\n");
+        scanf("%d",&choix);
         
         switch(choix){
             case 1:
-                printf("Veuillez entrer le nom du magasin");
-                char *nomMagasin;
-                scanf("%s",nomMagasin);
-                creerMagasin(nomMagasin);
+                if(magasin==NULL){
+                    printf("Veuillez entrer le nom du magasin\n");
+                    scanf("%s",nomMagasin);
+                    magasin = creerMagasin(nomMagasin);
+                }
+                else{
+                    printf("le magasin est déjà créé\n");
+                }
                 break;
                 
             case 2:
+                printf("Veuillez entrer le nom du rayon\n");
+                scanf("%s",nomRayon);
+                ajouterRayon(magasin, creerRayon(nomRayon));
                 break;
                 
             case 3:
+                printf("Veuillez entrer le nom du produit");
+                //scanf("s",nomProduit);
+                //prod
                 break;
                 
             case 4:
@@ -64,7 +71,7 @@ int main(int argc, const char * argv[]) {
             case 9:
                 printf("La mémoire a été désallouée correctement\n");
                 printf("Aurevoir\n");
-                choix++;
+                enFonctionnement++;
                 break;
                 
             default:
