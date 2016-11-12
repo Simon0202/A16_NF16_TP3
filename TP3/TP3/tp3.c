@@ -1,7 +1,16 @@
+/*
+ *************************************************
+ Liste des erreurs notifiées lors de l'utilisation
+ *************************************************
+ 
+ 
+ */
+
 #include "tp3.h"
 
 T_Produit *creerProduit(char *marque, float prix, enum quality qualite,unsigned int quantite){
     T_Produit *NewProduit = malloc(sizeof(struct Produit));
+    
     NewProduit->marque = marque;
     NewProduit->prix=prix;
     NewProduit->qualite = qualite;
@@ -13,62 +22,142 @@ T_Produit *creerProduit(char *marque, float prix, enum quality qualite,unsigned 
 T_Rayon *creerRayon(char *nom)
 {
     T_Rayon *NewRayon = malloc(sizeof(struct Rayon));
+    
     NewRayon->nom_rayon = nom;
     NewRayon->nombre_produit = 0;
     NewRayon->premier = NULL;
     NewRayon->suivant = NULL;
+    
     return NewRayon;
 }
 
 T_Magasin *creerMagasin(char *nom)
 {
     T_Magasin *NewMagasin = malloc(sizeof(struct Magasin));
+    
     NewMagasin->nom = nom;
     NewMagasin->premier = NULL;
+    
     return NewMagasin;
 }
 
+void menu(){
+    //Table d'initialisation d'une base
+    T_Magasin *firstMagasin = creerMagasin("Carrefour");
+    T_Rayon *milk = creerRayon("milk");
+    ajouterRayon(firstMagasin, milk);
+    ajouterProduit(milk, creerProduit("danone", 1.25, A, 200));
+    ajouterProduit(milk, creerProduit("actimel", 2, A, 1200));
+    ajouterProduit(milk, creerProduit("fromage", 1.25, C, 20));
+    //ajouterProduit(milk, creerProduit("lait", 1.25, B, 78));
+    //T_Rayon *meat = creerRayon("meat");
 
-//Q3
-int ajouterProduit(T_Rayon *rayon, T_Produit *produit){
     
-    T_Rayon *currentRayon = rayon;  //sinon adresse va changer
     
-    if(currentRayon == NULL){
-        printf("Aucun rayon existant");
-        return 0;
-    }
-    if(currentRayon->premier == NULL){
-        currentRayon->premier = produit;
-        rayon->nombre_produit++;
-        return 1;
-    }
-    if(currentRayon->premier->marque == produit->marque)    //la même marque de produit dans un rayon
-        return 0;
-    if(currentRayon->premier->prix >= produit->prix) {
-        produit->suivant = currentRayon->premier;   //ajouter dans le premier
-        currentRayon->premier = produit;
-        rayon->nombre_produit++;
-        return 1;
-    }
-    while( (currentRayon->premier->suivant != NULL) && (currentRayon->premier->suivant->marque != produit->marque) && (currentRayon->premier->suivant->prix < produit->prix) )  //pas de meme marque et trier
-            currentRayon->premier = currentRayon->premier->suivant;
-    if(currentRayon->premier->suivant == NULL){
-        currentRayon->premier->suivant = produit;
-        rayon->nombre_produit++;
-        return 1;
-    }
-    else if(currentRayon->premier->suivant->marque == produit->marque)
-            return 0;   //la même marque de produit dans un rayon
-    else{
-        produit->suivant = currentRayon->premier->suivant;  //ajouter dans le dernier
-        currentRayon->premier->suivant = produit;
-        rayon->nombre_produit++;
-        return 1;
-    }
     
+    
+    
+    //Fonctionnement de l'application jusqu'à ce que l'utilisateur quitte le programme
+    int enFonctionnement = 0;
+    //Menu - 1
+    char nomMagasin[MaxTaileForMagasinName];
+    T_Magasin *magasin = firstMagasin;
+    //Menu - 2
+    char nomRayon[MaxTailleForRayonName];
+    //Menu - 3
+    T_Rayon *rayon;
+    char marqueProduit[MaxTailleForBrandName];
+    int prixProduit;
+    enum quality qualiteProduit;
+    int quantiteProduit;
+    
+    
+    
+    while(enFonctionnement==0){
+        int choix = 0;
+        printf("\nMenu des actions possibles\n");
+        if(magasin!=NULL){
+            afficherNomMagasin(magasin);
+        }
+        printf("Tapez 1 - Créer un magasin\n");
+        printf("Tapez 2 - Ajouter un rayon au magasin\n");
+        printf("Tapez 3 - Ajouter un produit dans un rayon\n");
+        printf("Tapez 4 - Afficher les rayons du magasin\n");
+        printf("Tapez 5 - Afficher les produits d'un rayon\n");
+        printf("Tapez 6 - Supprimer un produit\n");
+        printf("Tapez 7 - Supprimer un rayon\n");
+        printf("Tapez 8 - Rechercher un produit par prix\n");
+        printf("Tapez 9 - Quitter\n");
+        scanf("%d",&choix);
+        
+        switch(choix){
+            case 1:
+                if(magasin==NULL){
+                    printf("Veuillez entrer le nom du magasin\n");
+                    scanf("%s",nomMagasin);
+                    magasin = creerMagasin(nomMagasin);
+                }
+                else{
+                    printf("le magasin est déjà créé et se nomme:%s \n",magasin->nom);
+                }
+                break;
+                
+            case 2:
+                printf("Veuillez entrer le nom du rayon\n");
+                scanf("%s",nomRayon);
+                if (ajouterRayon(magasin, creerRayon(nomRayon))!=1){
+                    printf("erreur lors de l'ajout du rayon\n");
+                };
+                break;
+            
+            case 3:
+                printf("Veuillez entrer la marque du produit\n");
+                scanf("%s",marqueProduit);
+                printf("Veuillez entrer le prix du produit\n");
+                scanf("%d",&prixProduit);
+                printf("Veuillez entrer la qualite du produit\n");
+                scanf("%d",&qualiteProduit);
+                printf("Veuillez entrer la quantite du produit\n");
+                scanf("%d", &quantiteProduit);
+                creerProduit(marqueProduit, prixProduit, qualiteProduit, quantiteProduit);
+                break;
+                
+            case 4:
+                afficherMagasin(magasin);
+                break;
+                
+            case 5:
+                printf("Veuillez entrer le nom du rayon\n");
+                scanf("%s",nomRayon);
+                afficherRayon(retourneRayon(magasin, nomRayon));
+                break;
+                
+            case 6:
+                break;
+                
+            case 7:
+                break;
+                
+            case 8:
+                break;
+                
+            case 9:
+                printf("La mémoire a été désallouée correctement\n");
+                printf("Aurevoir\n");
+                enFonctionnement++;
+                break;
+                
+            default:
+                exit(EXIT_FAILURE);
+                break;
+        }
+        
+    }
 }
 
+
+
+//Q2
 int ajouterRayon(T_Magasin *magasin, T_Rayon *rayon){
     //Recuperation du magasin afin de ne pas perdre l'adresse du magasin
     //Il comprend la liste simplement chainée des rayons
@@ -94,6 +183,55 @@ int ajouterRayon(T_Magasin *magasin, T_Rayon *rayon){
     }
 }
 
+
+//Q3
+//Les produits sont triés par ordre croissant du prix du produit
+int ajouterProduit(T_Rayon *rayon, T_Produit *produit){
+    
+    T_Rayon *currentRayon = rayon;  //on récupère l'adresse du rayon sur lequel on fait l'ajout
+    
+    if(currentRayon == NULL||produit == NULL){
+        printf("Aucun rayon ou produit existant");
+        return 0;
+    }
+    else if(currentRayon->premier == NULL){
+        currentRayon->premier = produit;
+        rayon->nombre_produit=produit->quantite_en_stock; //On suppose que le nombre de produit signifie le nombre de produit dans le rayon et non pas le nombre de reference de produit
+        return 1;
+    }
+    else if(strcmp(currentRayon->premier->marque,produit->marque) == 0)    //la même marque de produit dans un rayon
+        return 0;
+    //le produit ajoute a un prix plus petit que le celui en tete de liste
+    else if(currentRayon->premier->prix >= produit->prix) {
+        produit->suivant = currentRayon->premier;   //ajouter dans le premier
+        currentRayon->premier = produit;
+        rayon->nombre_produit+=produit->quantite_en_stock;
+        return 1;
+    }
+    else{
+        while((currentRayon->premier->suivant != NULL) && (currentRayon->premier->suivant->prix < produit->prix))  //pas de meme marque et tier
+            currentRayon->premier = currentRayon->premier->suivant;
+        
+        if(currentRayon->premier->suivant == NULL){
+            currentRayon->premier->suivant = produit;
+            rayon->nombre_produit+=produit->quantite_en_stock;
+            return 1;
+        }
+        else if(strcmp(currentRayon->premier->suivant->marque,produit->marque)==0)    //la même marque de produit dans un rayon
+            return 0;
+        else{
+            produit->suivant = currentRayon->premier->suivant;  //ajouter dans le dernier
+            currentRayon->premier->suivant = produit;
+            rayon->nombre_produit+=produit->quantite_en_stock;
+            return 1;
+        }
+    }
+
+
+    
+}
+
+//Q4
 void afficherMagasin(T_Magasin *magasin){
     //Recuperation du magasin afin de ne pas perdre l'adresse du magasin
     //Il comprend la liste simplement chainée des rayons
@@ -104,12 +242,12 @@ void afficherMagasin(T_Magasin *magasin){
         exit(EXIT_FAILURE);
     }
     else if (currentMagasin->premier==NULL) {
-        printf("Il n'existe aucun produit pour ce magasin");
+        printf("Il n'existe aucun rayon pour ce magasin");
     }
     else{
-        printf("||NOM    ||Nombre de produits||\n");
+        printf("||NOM\t||Nombre de produits||\n");
         while (currentMagasin->premier!=NULL) {
-            printf("||%s||%d||\n",currentMagasin->premier->nom_rayon,currentMagasin->premier->nombre_produit);
+            printf("||%s\t||%d||\n",currentMagasin->premier->nom_rayon,currentMagasin->premier->nombre_produit);
             currentMagasin->premier = currentMagasin->premier->suivant;
         }
         
@@ -180,15 +318,23 @@ int supprimerProduit(T_Rayon *rayon, char* marque_produit){
     }
 }
 
+//Q7
 void supprimerRayon(T_Magasin *magasin, char *nom_rayon){
 
 }
 
+
+
+
 //*****
 //ADDED
 //*****
-void afficherNomMagasin(T_Magasin *magasin){
-    printf("Le nom du magasin est le suivant: %s\n",magasin->nom);
+T_Rayon *retourneRayon(T_Magasin *magasin, char *nomRayon){
+    T_Magasin *currentMagasin = magasin;
+    while(currentMagasin->premier!=NULL && strcmp(currentMagasin->premier->nom_rayon,nomRayon)!=0){
+        currentMagasin->premier=currentMagasin->premier->suivant;
+    }
+    return currentMagasin->premier;
 }
 
 
@@ -217,3 +363,10 @@ void afficherNomMagasin(T_Magasin *magasin){
  }
  }
  */
+
+
+
+ void afficherNomMagasin(T_Magasin *magasin){
+ printf("Le nom du magasin est le suivant: %s\n",magasin->nom);
+ } 
+

@@ -5,6 +5,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define MaxTaileForMagasinName 50
+#define MaxTailleForRayonName 40
+#define MaxTailleForBrandName 30
+
 //**********
 //Structures
 //**********
@@ -34,6 +38,10 @@ typedef struct Magasin {
 //Functions declarations
 //**********************
 
+//Menu Principal
+void menu();
+
+
 //Creation
 T_Produit *creerProduit(char *marque, float prix,enum quality qualite,unsigned int quantite);
 T_Rayon *creerRayon(char *nom);
@@ -48,6 +56,7 @@ void supprimerRayon(T_Magasin *magasin, char *nom_rayon);
 
 //Affichage
 void afficherNomMagasin(T_Magasin *magasin);
+T_Rayon *retourneRayon(T_Magasin *magasin, char *nomRayon);
 void afficherRayon(T_Rayon *rayon);
 void afficherMagasin(T_Magasin *magasin);
 
