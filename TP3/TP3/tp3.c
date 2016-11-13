@@ -2,6 +2,8 @@
  *************************************************
  Liste des erreurs notifiées lors de l'utilisation
  *************************************************
+ Une fois de temps en temps on obtient un Ex_bad_Acess(code=1,...) Il faut trouver la cause
+ Suppression produit à refaire
  
  
  */
@@ -127,6 +129,12 @@ void menu(T_Magasin *magasin){
                 break;
                 
             case 6:
+                printf("Veuillez entrer le nom du rayon dans lequel il faut supprimer un produit\n");
+                scanf("%s",nomRayon);
+                afficherRayon(retourneRayon(magasin, nomRayon));
+                printf("quel produit voulez vous supprimer?\n");
+                scanf("%s",marqueProduit);
+                supprimerProduit(retourneRayon(magasin, nomRayon), marqueProduit);
                 break;
                 
             case 7:
@@ -330,31 +338,31 @@ void afficherRayon(T_Rayon *rayon){
 //Q6
 int supprimerProduit(T_Rayon *rayon, char* marque_produit){
     T_Produit *firstProduct = rayon->premier;
-    T_Produit *supprimer;
+
     if(rayon == NULL){
         printf("Aucun rayon existant");
         return 0;
     }
-    if (firstProduct == NULL) {
+    if (rayon->premier == NULL) {
         printf("Il n'existe aucun produit pour ce rayon");
         return 0;
     }
-    if (firstProduct->marque == marque_produit){
-        supprimer = firstProduct;
-        firstProduct = firstProduct->suivant;
-        free(supprimer);
+    if (strcmp(firstProduct->marque,marque_produit)==0){
+        rayon->premier = firstProduct->suivant;
+        free(firstProduct);
         return 1;
     }
-    while((firstProduct->suivant != NULL) && (firstProduct->suivant->marque != marque_produit))
+    while((firstProduct->suivant != NULL) && strcmp(firstProduct->suivant->marque,marque_produit)!=0){
         firstProduct = firstProduct->suivant;
+    }
+    
     if(firstProduct->suivant == NULL){
         printf("Aucun rayon existant");
         return 0;
     }
     else{
-        supprimer = firstProduct->suivant;
-        firstProduct->suivant = firstProduct->suivant->suivant;
-        free(supprimer);
+        rayon->premier->suivant = firstProduct->suivant->suivant;
+        free(firstProduct->suivant);
         return 1;
     }
 }
@@ -418,7 +426,7 @@ T_Magasin *initialisationBase(){
     ajouterProduit(drink, creerProduit("coca", 1.2, A, 1000));
     ajouterProduit(drink, creerProduit("fanta", 3.4, A, 1200));
     ajouterProduit(drink, creerProduit("orangina", 3.12, A, 5700));
-    ajouterProduit(drink, creerProduit("ice tea", 5, A, 900));
+    ajouterProduit(drink, creerProduit("iceTea", 5, A, 900));
     
     return firstMagasin;
 }
