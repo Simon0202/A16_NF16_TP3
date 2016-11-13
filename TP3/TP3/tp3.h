@@ -39,7 +39,8 @@ typedef struct Magasin {
 //**********************
 
 //Menu Principal
-void menu();
+T_Magasin *initialisationBase();
+void menu(T_Magasin *magasin);
 
 
 //Creation
