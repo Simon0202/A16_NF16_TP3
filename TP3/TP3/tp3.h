@@ -60,7 +60,7 @@ int ajouterProduit(T_Rayon *rayon, T_Produit *produit);
 int ajouterRayon(T_Magasin *magasin, T_Rayon *rayon);
 
 //Supression
-void supprimerRayon(T_Magasin *magasin, char *nom_rayon);
+int supprimerRayon(T_Magasin *magasin, char *nom_rayon);
 int supprimerProduit(T_Rayon *rayon, char* marque_produit);
 
 //Affichage
