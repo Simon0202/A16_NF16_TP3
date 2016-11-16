@@ -366,10 +366,13 @@ void menu(T_Magasin *magasin){
     
     while(enFonctionnement==0){
         int choix = 0;
-        printf("\nMenu des actions possibles\n");
+        
         if(magasin!=NULL){
             afficherNomMagasin(magasin);
         }
+        
+        printf("\nMenu des actions possibles\n");
+        printf("Tapez 0 - Initialiser un magasin\n");
         printf("Tapez 1 - Créer un magasin\n");
         printf("Tapez 2 - Ajouter un rayon au magasin\n");
         printf("Tapez 3 - Ajouter un produit dans un rayon\n");
@@ -382,6 +385,14 @@ void menu(T_Magasin *magasin){
         scanf("%d",&choix);
         
         switch(choix){
+            case 0:
+                if (magasin==NULL){
+                    printf("Veuillez selectionner le menu 1, afin de créer un magasin\n");
+                }
+                else{
+                    initialisationBase(magasin);
+                }
+                break;
             case 1:
                 if(magasin==NULL){
                     printf("Veuillez entrer le nom du magasin\n");
@@ -498,14 +509,11 @@ void afficherNomMagasin(T_Magasin *magasin){
 
 
 
-/*
- T_Magasin *initialisationBase(){
- /
+void initialisationBase(T_Magasin *firstMagasin){
+ //
  //Table d'initialisation d'une base
- /
+ //
  
- //Magasin
- T_Magasin *firstMagasin = creerMagasin("Carrefour");
  
  //Premier Rayon
  T_Rayon *milk = creerRayon("milk");
@@ -532,9 +540,9 @@ void afficherNomMagasin(T_Magasin *magasin){
  ajouterProduit(drink, creerProduit("orangina", 3.12, A, 5700));
  ajouterProduit(drink, creerProduit("iceTea", 5, A, 900));
  
- return firstMagasin;
+ 
  }
- */
+ 
 
 
 
