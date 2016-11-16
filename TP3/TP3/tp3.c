@@ -287,6 +287,10 @@ void afficherRayon(T_Rayon *rayon){
 
 
 
+//***********************************************************************
+//***********************************************************************
+//***********************************************************************
+//***********************************************************************
 
 
 
@@ -325,18 +329,22 @@ int supprimerProduit(T_Rayon *rayon, char* marque_produit){
         return 1;
     }
 }
+//Fin de supprimerProduit
+
 
 //Q7
 void supprimerRayon(T_Magasin *magasin, char *nom_rayon){
 
 }
+//Fin de supprimerRayon
 
 
 
 
-
-
-
+//***********************************************************************
+//***********************************************************************
+//***********************************************************************
+//***********************************************************************
 
 
 
@@ -451,6 +459,7 @@ void menu(T_Magasin *magasin){
                 break;
                 
             case 6:
+                afficherMagasin(magasin);
                 printf("Veuillez entrer le nom du rayon dans lequel il faut supprimer un produit\n");
                 scanf("%s",nomRayon);
                 afficherRayon(retourneRayon(magasin, nomRayon));
@@ -478,14 +487,15 @@ void menu(T_Magasin *magasin){
         
     }
 }
+//Fin de Menu
 
 
 
 
-
-
-
-
+//***********************************************************************
+//***********************************************************************
+//***********************************************************************
+//***********************************************************************
 
 
 
@@ -500,12 +510,14 @@ T_Rayon *retourneRayon(T_Magasin *magasin, char *nomRayon){
     }
     return firstRayon;
 }
+//Fin de retournerRayon
 
 
 
 void afficherNomMagasin(T_Magasin *magasin){
     printf("Le nom du magasin est le suivant: %s\n",magasin->nom);
 }
+//Fin de afficherNomMagasin
 
 
 
@@ -514,7 +526,7 @@ void initialisationBase(T_Magasin *firstMagasin){
  //Table d'initialisation d'une base
  //
  
- 
+    
  //Premier Rayon
  T_Rayon *milk = creerRayon("milk");
  ajouterRayon(firstMagasin, milk);
@@ -540,9 +552,16 @@ void initialisationBase(T_Magasin *firstMagasin){
  ajouterProduit(drink, creerProduit("orangina", 3.12, A, 5700));
  ajouterProduit(drink, creerProduit("iceTea", 5, A, 900));
  
- 
  }
- 
+//Fin de initialisationBase
+
+
+
+
+//***********************************************************************
+//***********************************************************************
+//***********************************************************************
+//***********************************************************************
 
 
 
@@ -553,35 +572,38 @@ void initialisationBase(T_Magasin *firstMagasin){
 
 /*
  int totalProduitDansUnRayon(T_Rayon *rayon){
- T_Rayon *currentRayon = rayon;
- unsigned int total = 0;
- if(currentRayon==NULL){
- exit(EXIT_FAILURE);
+   
+    T_Rayon *currentRayon = rayon;
+    unsigned int total = 0;
+    if(currentRayon==NULL){
+        exit(EXIT_FAILURE);
+    }
+    else if (firstProduct==NULL){
+    return total;
+    }
+    else{
+        while(firstProduct!=NULL){
+            total+=firstProduct->quantite_en_stock;
+            firstProduct = firstProduct->suivant;
+        }
+        return total;
+    }
  }
- else if (firstProduct==NULL){
- return total;
- }
- else{
- while(firstProduct!=NULL){
- total+=firstProduct->quantite_en_stock;
- firstProduct = firstProduct->suivant;
- }
- return total;
- }
- }
- */
+ //Fin de totalProduitDansUnRayon
+ 
 
-/*
+
  int conversionEnumInt(char lettre){
- if(lettre=='A')
- return 0;
- else if(lettre=='B')
- return 1;
- else if(lettre=='C')
- return 2;
- else
- return -1;
+    if(lettre=='A')
+        return 0;
+    else if(lettre=='B')
+        return 1;
+    else if(lettre=='C')
+        return 2;
+    else
+        return -1;
  }
+ //Fin de conversionEnumInt
  */
 
 
