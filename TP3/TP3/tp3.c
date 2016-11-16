@@ -273,11 +273,11 @@ void afficherRayon(T_Rayon *rayon){
                     break;
                 case 2:
                     c = 'C';
+                    break;
                 default:
                     exit(EXIT_FAILURE);
                     break;
             }
-            
             printf("||%s\t||%.2f\t||%c\t||%d\t||\n",firstProduct->marque,firstProduct->prix,c,firstProduct->quantite_en_stock);
             firstProduct = firstProduct->suivant;
         }
