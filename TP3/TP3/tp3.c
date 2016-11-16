@@ -301,6 +301,7 @@ void afficherRayon(T_Rayon *rayon){
 //Q6
 int supprimerProduit(T_Rayon *rayon, char* marque_produit){
     T_Produit *firstProduct = rayon->premier;
+    T_Produit *precedent=NULL;
 
     if(rayon == NULL){
         printf("Aucun rayon existant");
@@ -310,23 +311,43 @@ int supprimerProduit(T_Rayon *rayon, char* marque_produit){
         printf("Il n'existe aucun produit pour ce rayon");
         return 0;
     }
-    if (strcmp(firstProduct->marque,marque_produit)==0){
-        rayon->premier = firstProduct->suivant;
-        free(firstProduct);
-        return 1;
-    }
-    while((firstProduct->suivant != NULL) && strcmp(firstProduct->suivant->marque,marque_produit)!=0){
+
+    while((firstProduct != NULL) && strcmp(firstProduct->marque,marque_produit)!=0){
+        precedent = firstProduct;
         firstProduct = firstProduct->suivant;
     }
     
     if(firstProduct->suivant == NULL){
-        printf("Aucun rayon existant");
+        printf("Ce produit n'est pas dans le rayon");
         return 0;
     }
     else{
-        rayon->premier->suivant = firstProduct->suivant->suivant;
-        free(firstProduct->suivant);
-        return 1;
+        //Test en tete
+        if(rayon->premier == firstProduct){
+            rayon->nombre_produit-=firstProduct->quantite_en_stock;
+            rayon->premier = firstProduct->suivant;
+            firstProduct->suivant = NULL;
+            free(firstProduct->marque);
+            free(firstProduct);
+            return 1;
+        }
+        //Test en queue
+        else if(firstProduct->suivant==NULL){
+            rayon->nombre_produit-=firstProduct->quantite_en_stock;
+            precedent->suivant = firstProduct->suivant;
+            free(firstProduct->marque);
+            free(firstProduct);
+            return 1;
+        }
+        //Test milieu
+        else{
+            rayon->nombre_produit-=firstProduct->quantite_en_stock;
+            precedent->suivant=firstProduct->suivant;
+            firstProduct->suivant = NULL;
+            free(firstProduct->marque);
+            free(firstProduct);
+            return 1;
+        }
     }
 }
 //Fin de supprimerProduit
@@ -334,7 +355,7 @@ int supprimerProduit(T_Rayon *rayon, char* marque_produit){
 
 //Q7
 void supprimerRayon(T_Magasin *magasin, char *nom_rayon){
-
+    
 }
 //Fin de supprimerRayon
 
