@@ -67,9 +67,15 @@ int supprimerProduit(T_Rayon *rayon, char* marque_produit);
 void afficherRayon(T_Rayon *rayon);
 void afficherMagasin(T_Magasin *magasin);
 
+//Recherche
+void rechercheProduits(T_Magasin *magasin, float prix_min, float prix_max);
+
+
 //added
 void afficherNomMagasin(T_Magasin *magasin);
 T_Rayon *retourneRayon(T_Magasin *magasin, char *nomRayon);
+
+
 
 
 //Useless
