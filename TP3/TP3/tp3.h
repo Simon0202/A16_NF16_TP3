@@ -22,6 +22,8 @@ typedef struct Produit {
     struct Produit* suivant;
 } T_Produit;
 
+
+
 typedef struct Rayon {
     char *nom_rayon;
     unsigned int nombre_produit;
@@ -29,17 +31,22 @@ typedef struct Rayon {
     struct Rayon *suivant;
 } T_Rayon;
 
+
+
 typedef struct Magasin {
     char *nom;
     T_Rayon *premier;
 } T_Magasin;
+
+
+
 
 //**********************
 //Functions declarations
 //**********************
 
 //Menu Principal
-T_Magasin *initialisationBase();
+//T_Magasin *initialisationBase();
 void menu(T_Magasin *magasin);
 
 
@@ -57,10 +64,13 @@ void supprimerRayon(T_Magasin *magasin, char *nom_rayon);
 int supprimerProduit(T_Rayon *rayon, char* marque_produit);
 
 //Affichage
-void afficherNomMagasin(T_Magasin *magasin);
-T_Rayon *retourneRayon(T_Magasin *magasin, char *nomRayon);
 void afficherRayon(T_Rayon *rayon);
 void afficherMagasin(T_Magasin *magasin);
+
+//added
+void afficherNomMagasin(T_Magasin *magasin);
+T_Rayon *retourneRayon(T_Magasin *magasin, char *nomRayon);
+
 
 //Useless
 //int totalProduitDansUnRayon(T_Rayon *rayon);
