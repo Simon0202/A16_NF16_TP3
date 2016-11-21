@@ -163,7 +163,7 @@ int ajouterProduit(T_Rayon *rayon, T_Produit *produit){
     T_Produit *firstProduct = rayon->premier;
     
     if(rayon == NULL||produit == NULL){
-        printf("Aucun rayon ou produit existant");
+        printf("Aucun rayon ou produit existant\n");
         return 0;
     }
     else if(rayon->premier == NULL){
@@ -175,7 +175,7 @@ int ajouterProduit(T_Rayon *rayon, T_Produit *produit){
     else{
         while(firstProduct != NULL){
             if(strcmp(firstProduct->marque,produit->marque) == 0){   //la même marque de produit dans un rayon
-                printf("un produit avec la marque %s existe dejà",produit->marque);
+                printf("un produit avec la marque %s existe dejà\n",produit->marque);
                 return 0;
             }
             else{
