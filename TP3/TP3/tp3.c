@@ -20,7 +20,7 @@ T_Produit *creerProduit(char *marque, double prix, enum quality qualite,unsigned
     if (NewProduit==NULL)
         exit(EXIT_FAILURE);
     
-    NewProduit->marque = malloc(MaxTailleForBrandName);
+    NewProduit->marque = malloc(sizeof(char)*MaxTailleForBrandName);
     strcpy(NewProduit->marque,marque);
     NewProduit->prix= prix;
     NewProduit->qualite = qualite;
@@ -37,7 +37,7 @@ T_Rayon *creerRayon(char *nom)
     if(NewRayon==NULL)
         exit(EXIT_FAILURE);
     
-    NewRayon->nom_rayon = malloc(MaxTailleForRayonName);
+    NewRayon->nom_rayon = malloc(sizeof(char)*MaxTailleForRayonName);
     strcpy(NewRayon->nom_rayon,nom);
     NewRayon->nombre_produit = 0;
     NewRayon->premier = NULL;
@@ -54,7 +54,7 @@ T_Magasin *creerMagasin(char *nom)
     if (NewMagasin==NULL)
         exit(EXIT_FAILURE);
     
-    NewMagasin->nom=malloc(MaxTaileForMagasinName);
+    NewMagasin->nom=malloc(sizeof(char)*MaxTaileForMagasinName);
     strcpy(NewMagasin->nom, nom);
     NewMagasin->premier = NULL;
     
@@ -196,7 +196,9 @@ int ajouterProduit(T_Rayon *rayon, T_Produit *produit){
                 return 1;
             }
             else{
-                firstProduct->suivant=produit;
+                produit->suivant=firstProduct;
+                rayon->nombre_produit+=produit->quantite_en_stock;
+                rayon->premier=produit;
                 return 1;
             }
         }
@@ -372,7 +374,7 @@ int supprimerRayon(T_Magasin *magasin, char *nom_rayon){
         printf("Aucun magasin existant");
         return 0;
     }
-    if (magasin->premier == NULL) {
+    else if (magasin->premier == NULL) {
         printf("Il n'existe aucun rayon pour ce magasin");
         return 0;
     }
@@ -597,16 +599,33 @@ void menu(T_Magasin *magasin){
                 break;
                 
             case 4:
+                if (magasin==NULL){
+                    printf("Veuillez selectionner le menu 1, afin de créer un magasin\n");
+                }
+                else{
                 afficherMagasin(magasin);
+                }
                 break;
                 
             case 5:
+                if (magasin==NULL){
+                    printf("Veuillez selectionner le menu 1, afin de créer un magasin\n");
+                }
+                else if (magasin->premier==NULL){
+                    printf("Veuillez créer un rayon avec le menu 2");
+                }
+                else{
                 printf("Veuillez entrer le nom du rayon\n");
                 scanf("%s",nomRayon);
                 afficherRayon(retourneRayon(magasin, nomRayon));
+                }
                 break;
                 
             case 6:
+                if (magasin==NULL){
+                    printf("Veuillez selectionner le menu 1, afin de créer un magasin\n");
+                }
+                else{
                 afficherMagasin(magasin);
                 printf("Veuillez entrer le nom du rayon dans lequel il faut supprimer un produit\n");
                 scanf("%s",nomRayon);
@@ -614,25 +633,37 @@ void menu(T_Magasin *magasin){
                 printf("quel produit voulez vous supprimer?\n");
                 scanf("%s",marqueProduit);
                 supprimerProduit(retourneRayon(magasin, nomRayon), marqueProduit);
+                }
                 break;
                 
             case 7:
+                if (magasin==NULL){
+                    printf("Veuillez selectionner le menu 1, afin de créer un magasin\n");
+                }
+                else{
                 afficherMagasin(magasin);
                 printf("Veuillez entrer le nom du rayon à supprimer \n");
                 scanf("%s",nomRayon);
                 supprimerRayon(magasin, nomRayon);
+                }
                 break;
                 
             case 8:
                 break;
                 
             case 9:
-                while(magasin->premier != NULL){
-                    supprimerRayon(magasin, magasin->premier->nom_rayon);
+                if (magasin==NULL){
+                    printf("Veuillez selectionner le menu 1, afin de créer un magasin\n");
                 }
-                printf("La mémoire a été désallouée correctement\n");
-                printf("Aurevoir\n");
-                enFonctionnement++;
+                else{
+                    while(magasin->premier != NULL){
+                        supprimerRayon(magasin, magasin->premier->nom_rayon);
+                    }
+                    
+                    printf("La mémoire a été désallouée correctement\n");
+                    printf("Aurevoir\n");
+                    enFonctionnement++;
+                }
                 break;
                 
             default:
