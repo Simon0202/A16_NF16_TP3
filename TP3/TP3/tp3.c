@@ -2,8 +2,11 @@
  *************************************************
  Liste des erreurs notifiées lors de l'utilisation
  *************************************************
-Ajout rayon à améliorer
-Supression produit à refaire
+Ajouter produit --> rayon == NULL ??
+
+ 
+ 
+ 
  */
 
 #include "tp3.h"
@@ -503,9 +506,9 @@ void menu(T_Magasin *magasin){
     char nomRayon[MaxTailleForRayonName];
     //Menu - 3
     char marqueProduit[MaxTailleForBrandName];
-    int prixProduit;
+    double prixProduit = 0;
     enum quality qualiteProduit;
-    int quantiteProduit;
+    int quantiteProduit = 0;
     //Menu - 4
     //Menu - 5
     //Menu - 6
@@ -569,21 +572,26 @@ void menu(T_Magasin *magasin){
                 if (magasin==NULL){
                     printf("Veuillez selectionner le menu 1, afin de créer un magasin\n");
                 }
-                if (magasin->premier==NULL){
+                else if (magasin->premier==NULL){
                     printf("Veuillez selectionner le menu 2, afin de créer un rayon\n");
                 }
                 else{
                     printf("Veuillez entrer la marque du produit\n");
                     scanf("%s",marqueProduit);
+                    
                     printf("Veuillez entrer le prix du produit\n");
-                    scanf("%d",&prixProduit);
+                    scanf("%lf",&prixProduit);
+                    
                     printf("Veuillez entrer la qualite du produit\n");
                     scanf("%d",&qualiteProduit);
+                    
                     printf("Veuillez entrer la quantite du produit\n");
                     scanf("%d", &quantiteProduit);
+                    
                     printf("Veuillez indiquer le rayon dans lequel vous voulez le placer, parmi les suivants:\n");
                     afficherMagasin(magasin);
                     scanf("%s",nomRayon);
+                    
                     ajouterProduit(retourneRayon(magasin, nomRayon), creerProduit(marqueProduit, prixProduit, qualiteProduit, quantiteProduit));
                 }
                 break;
@@ -619,6 +627,9 @@ void menu(T_Magasin *magasin){
                 break;
                 
             case 9:
+                while(magasin->premier != NULL){
+                    supprimerRayon(magasin, magasin->premier->nom_rayon);
+                }
                 printf("La mémoire a été désallouée correctement\n");
                 printf("Aurevoir\n");
                 enFonctionnement++;
