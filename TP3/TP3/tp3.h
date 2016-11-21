@@ -5,9 +5,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define MaxTaileForMagasinName 50
-#define MaxTailleForRayonName 40
-#define MaxTailleForBrandName 30
+#define MaxTaileForMagasinName 200
+#define MaxTailleForRayonName 200
+#define MaxTailleForBrandName 200
 
 //**********
 //Structures
@@ -39,6 +39,15 @@ typedef struct Magasin {
 } T_Magasin;
 
 
+typedef struct Ord{
+    enum quality qualite;
+    char *marque;
+    char *nomRayon;
+    double prix;
+    unsigned int quantite;
+    struct Ord *suivant;
+}T_Ord;
+
 
 
 //**********************
@@ -51,9 +60,10 @@ void menu(T_Magasin *magasin);
 
 
 //Creation
-T_Produit *creerProduit(char *marque, float prix,enum quality qualite,unsigned int quantite);
+T_Produit *creerProduit(char *marque, double prix,enum quality qualite,unsigned int quantite);
 T_Rayon *creerRayon(char *nom);
 T_Magasin *creerMagasin(char *nom);
+T_Ord *creerOrd(char *marque, char *nomRayon, double prix, enum quality qualite, unsigned int quantite);
 
 //Ajout
 int ajouterProduit(T_Rayon *rayon, T_Produit *produit);
@@ -74,12 +84,5 @@ void rechercheProduits(T_Magasin *magasin, float prix_min, float prix_max);
 //added
 void afficherNomMagasin(T_Magasin *magasin);
 T_Rayon *retourneRayon(T_Magasin *magasin, char *nomRayon);
-
-
-
-
-//Useless
-//int totalProduitDansUnRayon(T_Rayon *rayon);
-
 
 #endif /* tp3_h */
