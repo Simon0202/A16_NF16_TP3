@@ -64,6 +64,25 @@ T_Magasin *creerMagasin(char *nom)
 //Fin de CreerMagasin
 
 
+struct Tri *CreerTri(char *marque,double prix,char qualite, int quantite, char *rayon)
+{
+    struct Tri *NewTri = malloc(sizeof(*NewTri));
+    if(NewTri==NULL)
+        exit(EXIT_FAILURE);
+    
+    NewTri->marque = marque;
+    NewTri->prix = prix;
+    NewTri->qualite = qualite;
+    NewTri->quantite = quantite;
+    NewTri->rayon = rayon;
+    NewTri->suivant = NULL;
+    
+    return NewTri;
+}
+//Fin de CreerTri
+
+
+
 //***********************************************************************
 //***********************************************************************
 //***********************************************************************
@@ -207,6 +226,53 @@ int ajouterProduit(T_Rayon *rayon, T_Produit *produit){
 
 
 
+int ajouterTri(teteTri *liste,struct Tri *tri){
+    
+    if(liste==NULL){
+        exit(EXIT_FAILURE);
+    }
+    else if(liste->premierTri==NULL){
+        liste->premierTri = tri;
+        return 1;
+    }
+    else {
+        struct Tri *firstElement = liste->premierTri;
+    
+        
+        while((firstElement->suivant != NULL) && (firstElement->suivant->prix < tri->prix) && (firstElement->prix <= tri->prix)){
+            firstElement = firstElement->suivant;
+        }
+        
+        if(firstElement->suivant == NULL){
+            if(firstElement->prix < tri->prix){
+                firstElement->suivant = tri;
+                return 1;
+            }
+            else{
+                tri->suivant=firstElement;
+                liste->premierTri = tri;
+                return 1;
+            }
+        }
+        else{
+            if(firstElement->prix<tri->prix){
+                tri->suivant = firstElement->suivant;  //ajouter dans le dernier
+                firstElement->suivant = tri;
+                return 1;
+            }
+            else{
+                tri->suivant=firstElement;
+                liste->premierTri = tri;
+                return 1;
+            }
+        }
+    }
+}
+//Fin de ajouterTri
+
+
+
+
 //***********************************************************************
 //***********************************************************************
 //***********************************************************************
@@ -267,6 +333,25 @@ void afficherRayon(T_Rayon *rayon){
     }
 }
 
+void afficherTri(teteTri *tete){
+    
+    if(tete==NULL){
+        exit(EXIT_FAILURE);
+    }
+    else if(tete->premierTri==NULL){
+        exit(EXIT_FAILURE);
+    }
+    else{
+        struct Tri *firstTri = tete->premierTri;
+        
+        printf("||Marque\t||Prix\t||Qualite\t||Quantite en stock\t||Rayon\n");
+        while(firstTri!=NULL){
+            printf("||%s\t||%.2f\t||%c\t||%d\t||%s\n",firstTri->marque,firstTri->prix,firstTri->qualite,firstTri->quantite,firstTri->rayon);
+            firstTri = firstTri->suivant;
+        }
+    }
+}
+//Fin de afficherTri
 
 
 
@@ -432,25 +517,36 @@ int supprimerRayon(T_Magasin *magasin, char *nom_rayon){
 
 //Q8
 void rechercheProduits(T_Magasin *magasin, float prix_min, float prix_max){
+    //Creation de la liste de tri
+    teteTri *tete = malloc(sizeof(*tete));
+    if (tete==NULL)
+        exit(EXIT_FAILURE);
+    tete->premierTri = NULL;
+    
     T_Rayon *rayon = magasin->premier;
     T_Produit *produit = NULL;
-    int header = 0;
-    
     
     while(rayon!=NULL){
+        //Recuperation du premier rayon
         produit = rayon->premier;
+        
         while(produit!=NULL){
             if((prix_min <= produit->prix) && (produit->prix <= prix_max)){
-                if(header==0){
-                    printf("MARQUE\tPRIX\tQUALITE\tQUANTITE_EN_STOCK\tRAYON\n");
-                    header = 1;
-                }
-                printf("%s\t %lf\t %c\t %d\t %s\n",produit->marque,produit->prix,convertIntToChar(produit->qualite),produit->quantite_en_stock,rayon->nom_rayon);
+                ajouterTri(tete, CreerTri(produit->marque, produit->prix, convertIntToChar(produit->qualite), produit->quantite_en_stock, rayon->nom_rayon));
             }
             produit = produit->suivant;
         }
         rayon = rayon->suivant;
     }
+    afficherTri(tete);
+    
+    while(tete->premierTri!=NULL){
+        struct Tri *tmp = tete->premierTri->suivant;
+        free(tete->premierTri);
+        tete->premierTri=tmp;
+    }
+    
+    free(tete);
 }
 //Fin de recherProduits
 

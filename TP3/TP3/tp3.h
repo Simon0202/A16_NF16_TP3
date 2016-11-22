@@ -39,14 +39,18 @@ typedef struct Magasin {
 } T_Magasin;
 
 
-typedef struct Ord{
-    enum quality qualite;
+struct Tri{
     char *marque;
-    char *nomRayon;
     double prix;
-    unsigned int quantite;
-    struct Ord *suivant;
-}T_Ord;
+    char qualite;
+    int quantite;
+    char *rayon;
+    struct Tri *suivant;
+};
+
+typedef struct teteTri{
+    struct Tri *premierTri;
+}teteTri;
 
 
 
@@ -63,11 +67,12 @@ void menu(T_Magasin *magasin);
 T_Produit *creerProduit(char *marque, double prix,enum quality qualite,unsigned int quantite);
 T_Rayon *creerRayon(char *nom);
 T_Magasin *creerMagasin(char *nom);
-T_Ord *creerOrd(char *marque, char *nomRayon, double prix, enum quality qualite, unsigned int quantite);
+struct Tri *CreerTri(char *marque,double prix,char qualite, int quantite, char *rayon);
 
 //Ajout
 int ajouterProduit(T_Rayon *rayon, T_Produit *produit);
 int ajouterRayon(T_Magasin *magasin, T_Rayon *rayon);
+int ajouterTri(teteTri *liste,struct Tri *tri);
 
 //Supression
 int supprimerRayon(T_Magasin *magasin, char *nom_rayon);
@@ -76,6 +81,7 @@ int supprimerProduit(T_Rayon *rayon, char* marque_produit);
 //Affichage
 void afficherRayon(T_Rayon *rayon);
 void afficherMagasin(T_Magasin *magasin);
+void afficherTri(teteTri *tete);
 
 //Recherche
 void rechercheProduits(T_Magasin *magasin, float prix_min, float prix_max);
