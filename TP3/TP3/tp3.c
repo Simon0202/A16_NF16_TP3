@@ -260,20 +260,7 @@ void afficherRayon(T_Rayon *rayon){
         
         printf("||Marque\t||Prix\t||Qualite\t||Quantite en stock\t||\n");
         while (firstProduct!= NULL) {
-            switch(firstProduct->qualite){   //pour afficher qualite
-                case 0:
-                    c = 'A';
-                    break;
-                case 1:
-                    c = 'B';
-                    break;
-                case 2:
-                    c = 'C';
-                    break;
-                default:
-                    exit(EXIT_FAILURE);
-                    break;
-            }
+            c = convertIntToChar(firstProduct->qualite);
             printf("||%s\t||%.2f\t||%c\t||%d\t||\n",firstProduct->marque,firstProduct->prix,c,firstProduct->quantite_en_stock);
             firstProduct = firstProduct->suivant;
         }
@@ -458,7 +445,7 @@ void rechercheProduits(T_Magasin *magasin, float prix_min, float prix_max){
                     printf("MARQUE\tPRIX\tQUALITE\tQUANTITE_EN_STOCK\tRAYON\n");
                     header = 1;
                 }
-                printf("%s\t %lf\t %ud\t %d\t %s\n",produit->marque,produit->prix,produit->qualite,produit->quantite_en_stock,rayon->nom_rayon);
+                printf("%s\t %lf\t %c\t %d\t %s\n",produit->marque,produit->prix,convertIntToChar(produit->qualite),produit->quantite_en_stock,rayon->nom_rayon);
             }
             produit = produit->suivant;
         }
@@ -489,7 +476,7 @@ void menu(T_Magasin *magasin){
     //Menu - 3
     char marqueProduit[MaxTailleForBrandName];
     double prixProduit = 0;
-    enum quality qualiteProduit;
+    char qualiteProduit;
     int quantiteProduit = 0;
     //Menu - 4
     //Menu - 5
@@ -567,7 +554,8 @@ void menu(T_Magasin *magasin){
                     scanf("%lf",&prixProduit);
                     
                     printf("Veuillez entrer la qualite du produit\n");
-                    scanf("%d",&qualiteProduit);
+                    scanf("%s",&qualiteProduit);
+                    
                     
                     printf("Veuillez entrer la quantite du produit\n");
                     scanf("%d", &quantiteProduit);
@@ -576,7 +564,7 @@ void menu(T_Magasin *magasin){
                     afficherMagasin(magasin);
                     scanf("%s",nomRayon);
                     
-                    ajouterProduit(retourneRayon(magasin, nomRayon), creerProduit(marqueProduit, prixProduit, qualiteProduit, quantiteProduit));
+                    ajouterProduit(retourneRayon(magasin, nomRayon), creerProduit(marqueProduit, prixProduit, convertCharToInt(qualiteProduit), quantiteProduit));
                 }
                 break;
                 
@@ -747,7 +735,7 @@ void initialisationBase(T_Magasin *firstMagasin){
 }
 //Fin de initialisationBase
 
-int convert(char c){
+int convertCharToInt(char c){
     switch (c) {
         case 'A':
             return 0;
@@ -756,7 +744,21 @@ int convert(char c){
         case 'C':
             return 2;
         default:
-            return -1;
+            exit(EXIT_FAILURE);
+    }
+}
+//Fin de convert
+
+char convertIntToChar(int val){
+    switch (val) {
+        case 0:
+            return 'A';
+        case 1:
+            return 'B';
+        case 2:
+            return 'C';
+        default:
+            exit(EXIT_FAILURE);
     }
 }
 //Fin de convert
