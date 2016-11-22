@@ -755,3 +755,16 @@ void initialisationBase(T_Magasin *firstMagasin){
     ajouterProduit(drink, produit);
 }
 //Fin de initialisationBase
+
+int convert(char c){
+    switch (c) {
+        case 'A':
+            return 0;
+        case 'B':
+            return 1;
+        case 'C'
+            return 2;
+        default:
+            return -1;
+    }
+}
