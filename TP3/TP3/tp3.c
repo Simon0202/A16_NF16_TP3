@@ -64,22 +64,6 @@ T_Magasin *creerMagasin(char *nom)
 //Fin de CreerMagasin
 
 
-T_Ord *creerOrd(char *marque, char *nomRayon, double prix, enum quality qualite, unsigned int quantite){
-    T_Ord *newOrd = malloc(sizeof(*newOrd));
-    if(newOrd==NULL)
-        exit(EXIT_FAILURE);
-    
-    newOrd->marque=marque;
-    newOrd->nomRayon=nomRayon;
-    newOrd->prix=prix;
-    newOrd->qualite=qualite;
-    newOrd->quantite=quantite;
-    newOrd->suivant=NULL;
-    
-    return newOrd;
-}
-//Fin de CreerOrd
-
 //***********************************************************************
 //***********************************************************************
 //***********************************************************************
@@ -458,36 +442,31 @@ int supprimerRayon(T_Magasin *magasin, char *nom_rayon){
 
 
 
-/*
+
 //Q8
 void rechercheProduits(T_Magasin *magasin, float prix_min, float prix_max){
-    T_Rayon *temp = creerRayon("zzz");
     T_Rayon *rayon = magasin->premier;
-    T_Produit *produit;
-    T_Ord *ordre=creerOrd();
+    T_Produit *produit = NULL;
+    int header = 0;
     
     
     while(rayon!=NULL){
-        
-        produit=rayon->premier
+        produit = rayon->premier;
         while(produit!=NULL){
-            if(produit->prix>=prix_min && produit->prix<=prix_max){
-                ajouterRayon(mag, <#T_Rayon *rayon#>)
+            if((prix_min <= produit->prix) && (produit->prix <= prix_max)){
+                if(header==0){
+                    printf("MARQUE\tPRIX\tQUALITE\tQUANTITE_EN_STOCK\tRAYON\n");
+                    header = 1;
+                }
+                printf("%s\t %lf\t %ud\t %d\t %s\n",produit->marque,produit->prix,produit->qualite,produit->quantite_en_stock,rayon->nom_rayon);
             }
-            
-            
-            produit=produit->suivant
+            produit = produit->suivant;
         }
-        
-        
-        rayon->suivant
+        rayon = rayon->suivant;
     }
-    
-    supprimerRayon(magasin, "zzz");
-    
 }
 //Fin de recherProduits
-*/
+
 
 
 
@@ -517,6 +496,8 @@ void menu(T_Magasin *magasin){
     //Menu - 6
     //Menu - 7
     //Menu - 8
+    double prixMin = 0;
+    double prixMax = 0;
     //Menu - 9
     int enFonctionnement = 0;
     
@@ -650,6 +631,16 @@ void menu(T_Magasin *magasin){
                 break;
                 
             case 8:
+                if (magasin==NULL){
+                    printf("Veuillez selectionner le menu 1, afin de créer un magasin\n");
+                }
+                else{
+                    printf("Veuillez saisir le prix min\n");
+                    scanf("%lf",&prixMin);
+                    printf("Veuillez saisir le prix max\n");
+                    scanf("%lf",&prixMax);
+                    rechercheProduits(magasin, prixMin, prixMax);
+                }
                 break;
                 
             case 9:
@@ -762,9 +753,10 @@ int convert(char c){
             return 0;
         case 'B':
             return 1;
-        case 'C'
+        case 'C':
             return 2;
         default:
             return -1;
     }
 }
+//Fin de convert

@@ -84,5 +84,6 @@ void rechercheProduits(T_Magasin *magasin, float prix_min, float prix_max);
 //added
 void afficherNomMagasin(T_Magasin *magasin);
 T_Rayon *retourneRayon(T_Magasin *magasin, char *nomRayon);
+int convert(char c);
 
 #endif /* tp3_h */
