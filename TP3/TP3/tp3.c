@@ -25,6 +25,7 @@ T_Produit *creerProduit(char *marque, double prix, enum quality qualite,unsigned
     NewProduit->prix= prix;
     NewProduit->qualite = qualite;
     NewProduit->quantite_en_stock = quantite;
+    NewProduit->suivant=NULL;
     
     return NewProduit;
 }
